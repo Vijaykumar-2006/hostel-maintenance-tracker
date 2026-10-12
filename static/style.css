@@ -57,7 +57,7 @@ a { color: var(--primary); text-decoration: none; }
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 66px; }
 .brand { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; font-weight: 700; color: var(--dark); }
-.brand span:last-child { color: var(--primary); }
+.brand-name span { color: var(--primary); }
 .brand-logo {
     width: 38px; height: 38px; border-radius: 10px;
     display: grid; place-items: center;
@@ -247,7 +247,8 @@ table { width: 100%; border-collapse: collapse; font-size: .92rem; }
 th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
 th { background: #f1f5f9; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 tbody tr:hover { background: #fafbff; }
-td.desc { max-width: 260px; color: var(--muted); }
+td.desc { min-width: 220px; max-width: 320px; color: var(--muted); }
+.container.wide { max-width: 1400px; }
 .status-form { display: flex; gap: 6px; }
 .status-form select { padding: 6px 8px; font-size: .85rem; min-width: 120px; }
 .empty { padding: 50px; text-align: center; color: var(--muted); }

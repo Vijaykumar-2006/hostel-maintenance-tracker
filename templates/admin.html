@@ -2,7 +2,7 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<section class="container section">
+<section class="container wide section">
     <div class="page-head left">
         <h1>Admin Dashboard</h1>
         <p>View all maintenance requests and update their status.</p>
@@ -46,9 +46,9 @@
                 <tbody>
                     {% for req in requests %}
                     <tr>
-                        <td class="mono">{{ format_request_id(req.id) }}</td>
+                        <td class="mono nowrap">{{ format_request_id(req.id) }}</td>
                         <td>{{ req.student_name }}</td>
-                        <td>{{ req.room_number }}</td>
+                        <td class="nowrap">{{ req.room_number }}</td>
                         <td>{{ req.category }}</td>
                         <td class="desc">{{ req.description }}</td>
                         <td><span class="priority priority-{{ req.priority|lower }}">{{ req.priority }}</span></td>
