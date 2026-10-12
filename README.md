@@ -330,7 +330,7 @@ The Ansible container controls the **host's** Docker engine through the mounted
 Docker socket:
 
 ```bash
-docker run -d --name ansible-docker-lab \
+docker run -d --name ansible-docker-lab --restart unless-stopped \
   -v /var/run/docker.sock:/var/run/docker.sock \
   python:3.11-slim sleep infinity
 
