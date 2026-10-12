@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<section class="container section">
+    <div class="page-head left">
+        <h1>Admin Dashboard</h1>
+        <p>View all maintenance requests and update their status.</p>
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-card total"><span>Total Requests</span><strong>{{ summary['Total'] }}</strong></div>
+        <div class="summary-card pending"><span>Pending</span><strong>{{ summary['Pending'] }}</strong></div>
+        <div class="summary-card assigned"><span>Assigned</span><strong>{{ summary['Assigned'] }}</strong></div>
+        <div class="summary-card progress"><span>In Progress</span><strong>{{ summary['In Progress'] }}</strong></div>
+        <div class="summary-card resolved"><span>Resolved</span><strong>{{ summary['Resolved'] }}</strong></div>
+    </div>
+
+    <div class="card table-card">
+        <div class="table-toolbar">
+            <div class="filters">
+                {% for option in ['All'] + statuses %}
+                <a href="{{ url_for('admin', status=option) }}"
+                   class="filter {{ 'active' if status_filter == option }}">{{ option }}</a>
+                {% endfor %}
+            </div>
+            <input type="search" id="tableSearch" placeholder="Search room, name, category...">
+        </div>
+
+        {% if requests %}
+        <div class="table-wrap">
+            <table id="requestsTable">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Student</th>
+                        <th>Block / Room</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Date / Time</th>
+                        <th>Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                    <tr>
+                        <td class="mono">{{ format_request_id(req.id) }}</td>
+                        <td>{{ req.student_name }}</td>
+                        <td>{{ req.room_number }}</td>
+                        <td>{{ req.category }}</td>
+                        <td class="desc">{{ req.description }}</td>
+                        <td><span class="priority priority-{{ req.priority|lower }}">{{ req.priority }}</span></td>
+                        <td class="nowrap">{{ req.created_at }}</td>
+                        <td><span class="status status-{{ req.status|lower|replace(' ', '-') }}">{{ req.status }}</span></td>
+                        <td>
+                            <form action="{{ url_for('update_status') }}" method="POST" class="status-form">
+                                <input type="hidden" name="request_id" value="{{ req.id }}">
+                                <select name="status">
+                                    {% for status in statuses %}
+                                    <option value="{{ status }}" {{ 'selected' if status == req.status }}>{{ status }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn btn-small">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty">
+            <p>No requests found{{ ' with status "' ~ status_filter ~ '"' if status_filter != 'All' }}.</p>
+            <a href="{{ url_for('report') }}" class="btn btn-primary">Report the first issue</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

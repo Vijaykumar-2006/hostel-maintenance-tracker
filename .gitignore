@@ -1,0 +1,10 @@
+# SQLite database (never commit real data)
+hostel_maintenance.db
+data/hostel_maintenance.db
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.env

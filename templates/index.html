@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <span class="badge">Hostel Maintenance Portal</span>
+            <h1>Broken fan? Leaking tap? <br><span>Get it fixed, faster.</span></h1>
+            <p>
+                Report hostel room issues online, get an instant Request ID and
+                track the repair status until it is resolved &mdash; no more
+                waiting at the warden's office.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ url_for('report') }}" class="btn btn-primary">Report an Issue</a>
+                <a href="{{ url_for('track') }}" class="btn btn-outline">Track My Request</a>
+            </div>
+        </div>
+        <div class="hero-card">
+            <div class="mini-ticket">
+                <div class="mini-head">
+                    <span class="mono">HM-0042</span>
+                    <span class="status status-in-progress">In Progress</span>
+                </div>
+                <h4>Ceiling fan not working</h4>
+                <p>Block A &middot; Room 214 &middot; Electrical</p>
+                <div class="mini-progress">
+                    <span class="done"></span><span class="done"></span><span class="done"></span><span></span>
+                </div>
+                <small>Pending &rarr; Assigned &rarr; In Progress &rarr; Resolved</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container section">
+    <h2 class="section-title">How it works</h2>
+    <div class="steps">
+        <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Report</h3>
+            <p>Choose the issue category, enter your room number and describe the problem.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Get a Request ID</h3>
+            <p>Your request is saved instantly and you receive a unique ID like <span class="mono">HM-0001</span>.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Admin Assigns</h3>
+            <p>The hostel admin reviews the request and assigns it to the maintenance staff.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">4</div>
+            <h3>Track &amp; Resolve</h3>
+            <p>Check live status any time until your issue is marked <strong>Resolved</strong>.</p>
+        </div>
+    </div>
+</section>
+
+<section class="container section">
+    <h2 class="section-title">Issue categories we handle</h2>
+    <div class="category-grid">
+        <div class="category-card"><span class="cat-icon">&#9889;</span>Electrical</div>
+        <div class="category-card"><span class="cat-icon">&#128703;</span>Plumbing</div>
+        <div class="category-card"><span class="cat-icon">&#129681;</span>Furniture / Carpentry</div>
+        <div class="category-card"><span class="cat-icon">&#128246;</span>Wi-Fi / Internet</div>
+        <div class="category-card"><span class="cat-icon">&#129529;</span>Cleaning / Housekeeping</div>
+        <div class="category-card"><span class="cat-icon">&#128295;</span>Other</div>
+    </div>
+</section>
+{% endblock %}

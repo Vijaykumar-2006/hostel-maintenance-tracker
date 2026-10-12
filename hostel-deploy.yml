@@ -1,0 +1,42 @@
+---
+# Ansible playbook: deploy the HostelCare Flask app as a Docker container.
+# Runs inside the "ansible-docker-lab" container, which talks to the host
+# Docker engine through the mounted /var/run/docker.sock.
+#
+# Usage:
+#   ansible-playbook -i /inventory.ini /hostel-deploy.yml
+#   ansible-playbook -i /inventory.ini /hostel-deploy.yml -e container_state=stopped
+#   ansible-playbook -i /inventory.ini /hostel-deploy.yml -e container_state=absent
+
+- name: Deploy HostelCare - Hostel Maintenance Tracker
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    image_name: hostel-maintenance-ci
+    container_name: hostel-maintenance-ansible
+    volume_name: hostel_maintenance_data
+
+  tasks:
+    - name: Create Docker volume for the SQLite database
+      community.docker.docker_volume:
+        name: "{{ volume_name }}"
+        state: present
+
+    - name: Deploy the HostelCare application container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}"
+        state: "{{ container_state | default('started') }}"
+        restart_policy: unless-stopped
+        ports:
+          - "5002:5000"
+        volumes:
+          - "{{ volume_name }}:/app/data"
+
+    - name: Show deployment result
+      ansible.builtin.debug:
+        msg: >-
+          Container '{{ container_name }}' is {{ container_state | default('started') }}.
+          Open http://localhost:5002 - data persists in volume '{{ volume_name }}'.

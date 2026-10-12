@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Track Request{% endblock %}
+
+{% block content %}
+<section class="container section narrow">
+    <div class="page-head">
+        <h1>Track Your Request</h1>
+        <p>Enter the Request ID you received after submitting your issue.</p>
+    </div>
+
+    <form class="card search-form" action="{{ url_for('track') }}" method="POST">
+        <input type="text" name="request_id" placeholder="e.g. HM-0001"
+               value="{{ request_id }}" required>
+        <button type="submit" class="btn btn-primary">Track</button>
+    </form>
+
+    {% if req %}
+    {% set current = statuses.index(req.status) %}
+    <div class="card result-card">
+        <div class="result-head">
+            <div>
+                <span class="mono big">{{ format_request_id(req.id) }}</span>
+                <p class="muted">Submitted on {{ req.created_at }}</p>
+            </div>
+            <span class="status status-{{ req.status|lower|replace(' ', '-') }}">{{ req.status }}</span>
+        </div>
+
+        <ol class="timeline">
+            {% for status in statuses %}
+            <li class="{{ 'done' if loop.index0 <= current }} {{ 'current' if loop.index0 == current }}">
+                <span class="dot"></span>
+                <span class="label">{{ status }}</span>
+            </li>
+            {% endfor %}
+        </ol>
+
+        <dl class="details">
+            <div><dt>Name</dt><dd>{{ req.student_name }}</dd></div>
+            <div><dt>Block / Room</dt><dd>{{ req.room_number }}</dd></div>
+            <div><dt>Category</dt><dd>{{ req.category }}</dd></div>
+            <div><dt>Priority</dt><dd><span class="priority priority-{{ req.priority|lower }}">{{ req.priority }}</span></dd></div>
+            <div class="full"><dt>Description</dt><dd>{{ req.description }}</dd></div>
+            <div><dt>Last Updated</dt><dd>{{ req.updated_at }}</dd></div>
+        </dl>
+    </div>
+    {% elif not searched %}
+    <p class="muted center">Tip: You can type just the number too, e.g. <span class="mono">1</span>.</p>
+    {% endif %}
+</section>
+{% endblock %}

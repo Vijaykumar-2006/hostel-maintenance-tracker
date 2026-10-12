@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Report Issue{% endblock %}
+
+{% block content %}
+<section class="container section narrow">
+    <div class="page-head">
+        <h1>Report a Maintenance Issue</h1>
+        <p>Fill in the details below. You will receive a Request ID after submitting.</p>
+    </div>
+
+    <form class="card form" action="{{ url_for('submit_request') }}" method="POST" id="reportForm" novalidate>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="student_name">Your Name <span class="req">*</span></label>
+                <input type="text" id="student_name" name="student_name" maxlength="60"
+                       placeholder="e.g. Vijay Kumar" value="{{ form.student_name or '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="room_number">Block / Room Number <span class="req">*</span></label>
+                <input type="text" id="room_number" name="room_number" maxlength="30"
+                       placeholder="e.g. Block A - 214" value="{{ form.room_number or '' }}" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Issue Category <span class="req">*</span></label>
+            <div class="chip-group">
+                {% for category in categories %}
+                <label class="chip">
+                    <input type="radio" name="category" value="{{ category }}"
+                           {{ 'checked' if form.category == category }} required>
+                    <span>{{ category }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description <span class="req">*</span></label>
+            <textarea id="description" name="description" rows="4" maxlength="500"
+                      placeholder="Describe the problem (min 10 characters)" required>{{ form.description or '' }}</textarea>
+            <small class="hint"><span id="charCount">0</span>/500 characters</small>
+        </div>
+
+        <div class="form-group">
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+                {% for priority in priorities %}
+                <option value="{{ priority }}" {{ 'selected' if (form.priority or 'Medium') == priority }}>{{ priority }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="clientErrors" class="flash flash-error hidden"></div>
+
+        <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
+    </form>
+</section>
+{% endblock %}
