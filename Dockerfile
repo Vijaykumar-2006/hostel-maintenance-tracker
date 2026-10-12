@@ -15,4 +15,7 @@ RUN mkdir -p /app/data
 
 EXPOSE 5000
 
+# Flask stops cleanly on Ctrl+C (SIGINT), so "docker stop" exits immediately
+STOPSIGNAL SIGINT
+
 CMD ["python", "app.py"]

@@ -352,7 +352,7 @@ The `Jenkinsfile` defines a declarative pipeline:
 
 | Stage                   | What happens                                                                 |
 |-------------------------|------------------------------------------------------------------------------|
-| **Checkout**            | Pulls the latest code from GitHub (`main` branch)                            |
+| **Checkout**            | `checkout scm` pulls the latest code from the GitHub repo configured in the job |
 | **Build**               | `docker build -t hostel-maintenance-ci .`                                    |
 | **Test**                | `docker run --rm hostel-maintenance-ci python -m pytest test_app.py`         |
 | **Deploy with Ansible** | Copies the playbook into the Ansible container, then runs `docker exec ansible-docker-lab ansible-playbook -i /inventory.ini /hostel-deploy.yml` |
@@ -369,7 +369,7 @@ At the end Jenkins prints:
 1. Jenkins must be able to run `docker` commands. For example, run Jenkins in
    Docker with the socket mounted:
    ```bash
-   docker run -d --name jenkins -u root -p 8080:8080 \
+   docker run -d --name jenkins -u root -p 8080:8080 --restart unless-stopped \
      -v jenkins_home:/var/jenkins_home \
      -v /var/run/docker.sock:/var/run/docker.sock \
      jenkins/jenkins:lts
@@ -378,7 +378,8 @@ At the end Jenkins prints:
 2. In Jenkins: **New Item → Pipeline**.
 3. Under *Pipeline*, choose **Pipeline script from SCM → Git**, with repository URL
    `https://github.com/Vijaykumar-2006/hostel-maintenance-tracker.git`, branch `*/main`,
-   and script path `Jenkinsfile`.
+   and script path `Jenkinsfile`. (Use *Pipeline script from SCM*, not a pasted
+   script, because the Checkout stage uses `checkout scm`.)
 4. Click **Build Now**.
 5. Open <http://localhost:5002> to see the deployed application.
 

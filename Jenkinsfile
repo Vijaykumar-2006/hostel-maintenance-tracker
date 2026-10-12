@@ -5,7 +5,6 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL          = 'https://github.com/Vijaykumar-2006/hostel-maintenance-tracker.git'
         IMAGE_NAME        = 'hostel-maintenance-ci'
         ANSIBLE_CONTAINER = 'ansible-docker-lab'
     }
@@ -14,7 +13,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo '===== Stage 0: Checking out latest code from GitHub ====='
-                git branch: 'main', url: "${REPO_URL}"
+                // Uses the repository configured in the Jenkins job:
+                // https://github.com/Vijaykumar-2006/hostel-maintenance-tracker.git
+                checkout scm
             }
         }
 
