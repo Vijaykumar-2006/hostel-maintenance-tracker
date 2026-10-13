@@ -401,7 +401,19 @@ trigger the pipeline automatically).
 
 ---
 
-## 14. Author
+## 14. Demo Checklist
+
+| Area     | What to show                                                                 |
+|----------|------------------------------------------------------------------------------|
+| GitHub   | Repository files and commit history                                          |
+| Frontend | Report an issue → get Request ID → track it → update status as admin          |
+| Jenkins  | Build Now → Stage View → Console Output (`13 passed`, `failed=0`, `SUCCESS`)  |
+| Docker   | `docker ps`, `docker images`, `docker volume ls`, `docker logs hostel-maintenance-ansible` |
+| Volume   | `docker rm -f hostel-maintenance-ansible` → redeploy → request still present  |
+
+---
+
+## 15. Author
 
 **Vijaykumar R** · GitHub: [Vijaykumar-2006](https://github.com/Vijaykumar-2006)
 DevOps Laboratory Project
